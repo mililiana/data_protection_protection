@@ -12,10 +12,8 @@ This project demonstrates various methods of information protection, including e
 
 ### Startup instructions
 1. Clone the repository:
-   ``bash
    git clone https://github.com/mililiana/data_protection_protection.git
    cd dsa_app
-   ```
 
 2. Run the application:
    ```bash
