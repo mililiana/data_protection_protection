@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Signature DSS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            color: #555;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            width: 30%;
+            font-size: 0.9rem;
+            color: #333;
+            text-align: right;
+            margin-right: 8px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="file"] {
+            width: 65%;
+            padding: 6px;
+            font-size: 0.9rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .messages {
+            list-style: none;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: rgb(198, 245, 199);
+            border: 1px solid rgba(73, 229, 73, 0.34);
+            border-radius: 4px;
+            color: #1ab21a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Digital Signature DSS</h1>
+
+        <h2>Generate Keys</h2>
+        <form action="/generate_keys" method="post">
+            <button type="submit">Generate Keys</button>
+        </form>
+
+        <h2>Sign a Message</h2>
+        <form action="/sign_message" method="post">
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <input type="text" name="message" id="message" required>
+            </div>
+            <button type="submit">Sign Message</button>
+        </form>
+
+        <h2>Sign a File</h2>
+        <form action="/sign_file" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">File:</label>
+                <input type="file" name="file" id="file" required>
+            </div>
+            <button type="submit">Sign File</button>
+        </form>
+
+        <h2>Verify Message Signature</h2>
+        <form action="/verify_message" method="post">
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <input type="text" name="message" id="message" required>
+            </div>
+            <button type="submit">Verify Message</button>
+        </form>
+
+        <h2>Verify File Signature</h2>
+        <form action="/verify_file" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">File:</label>
+                <input type="file" name="file" id="file" required>
+            </div>
+            <div class="form-group">
+                <label for="signature_file">Signature:</label>
+                <input type="file" name="signature_file" id="signature_file" required>
+            </div>
+            <button type="submit">Verify File</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
