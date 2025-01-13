@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна робота: RSA Шифрування</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Лабораторна робота: RSA Шифрування</h1>
+    <form action="/generate_keys" method="POST">
+        <button type="submit">Згенерувати ключі</button>
+    </form>
+    <hr>
+    <form action="/encrypt" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Повідомлення:</label>
+            <input type="text" name="message">
+        </div>
+        <div class="form-group">
+            <label>Файл для шифрування:</label>
+            <input type="file" name="file">
+        </div>
+        <button type="submit">Шифрувати</button>
+    </form>
+    <hr>
+    <form action="/decrypt" method="POST" enctype="multipart/form-data">
+        <label>Зашифрований файл:</label>
+        <input type="file" name="encrypted_file">
+        <button type="submit">Розшифрувати</button>
+    </form>
+</div>
+</body>
+</html>

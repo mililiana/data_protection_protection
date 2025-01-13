@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MD5 Hash Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        select {
+            width: 250px;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease-in-out;
+        }
+
+        input[type="text"]:focus,
+        input[type="file"]:focus {
+            border-color: #5cb85c;
+        }
+
+        input[type="submit"] {
+            background-color: green;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+
+        .match {
+            color: white;
+            font-weight: bold;
+            background-color: #5cb85c;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .mismatch {
+            color: white;
+            font-weight: bold;
+            background-color: red;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .highlight {
+            background-color: #f0f8ff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+    </style>
+    <script>
+        function toggleInput() {
+            const option = document.getElementById('option').value;
+            document.getElementById('text-input').classList.toggle('hidden', option !== 'text');
+            document.getElementById('file-input').classList.toggle('hidden', option !== 'file');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>MD5 Hash Generator</h1>
+
+        <form method="POST" action="/hash" enctype="multipart/form-data">
+            <label>Select an option:</label><br>
+            <input type="radio" id="text_option" name="option" value="text" checked>
+            <label for="text_option">Enter message</label><br>
+
+            <input type="radio" id="file_option" name="option" value="file">
+            <label for="file_option">Upload file</label><br><br>
+
+            <div id="text_input">
+                <label for="message">Message:</label><br>
+                <input type="text" id="message" name="message"><br><br>
+            </div>
+
+            <div id="file_input" style="display:none;">
+                <label for="file">File:</label><br>
+                <input type="file" id="file" name="file"><br><br>
+                <label for="md5file">Upload MD5 hash file for integrity check:</label><br>
+                <input type="file" id="md5file" name="md5file"><br><br>
+            </div>
+
+            <input type="submit" value="Generate MD5 Hash">
+        </form>
+
+        <script>
+            document.getElementById('text_option').addEventListener('click', function() {
+                document.getElementById('text_input').style.display = 'block';
+                document.getElementById('file_input').style.display = 'none';
+            });
+            document.getElementById('file_option').addEventListener('click', function() {
+                document.getElementById('text_input').style.display = 'none';
+                document.getElementById('file_input').style.display = 'block';
+            });
+        </script>
+
+        {% if custom_md5 and builtin_md5 %}
+        <h2>Custom MD5 Hash:</h2>
+        <p class="highlight">{{ custom_md5 }}</p>
+
+        <h2>Built-in MD5 Hash:</h2>
+        <p class="highlight">{{ builtin_md5 }}</p>
+
+        <h2>Comparison Result:</h2>
+        {% if match %}
+        <p class="match">The hashes match!</p>
+        {% else %}
+        <p class="mismatch">The hashes do not match!</p>
+        {% endif %}
+        {% endif %}
+
+        {% if file_md5 %}
+        <h2>File MD5 Hash:</h2>
+        <p class="highlight">{{ file_md5 }}</p>
+        {% endif %}
+
+        {% if form_submitted %}
+            {% if md5_file_check is not none %}
+                <h2>MD5 File Check Result:</h2>
+                {% if md5_file_check %}
+                    <p class="match">File hash matches the provided MD5 hash!</p>
+                {% else %}
+                    <p class="mismatch">File hash does not match the provided MD5 hash!</p>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+
+
+    </div>
+</body>
+</html>
+
